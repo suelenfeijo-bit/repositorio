@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Marketplace</h1>
+<div>
+  {% for p in products %}
+  <div>
+    <a href="{{ url_for('products.product_detail', product_id=p.id) }}">{{ p.name }}</a>
+    <div>{{ (p.price_cents / 100)|round(2) }} {{ p.currency|upper }}</div>
+  </div>
+  {% else %}
+  <p>No products yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}

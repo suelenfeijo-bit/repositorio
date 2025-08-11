@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Cart</h2>
+<ul>
+  {% for item in items %}
+  <li>{{ item.product.name }} x {{ item.quantity }} = {{ (item.line_total/100)|round(2) }} {{ item.product.currency|upper }}</li>
+  {% endfor %}
+</ul>
+<p>Total: {{ (total_cents/100)|round(2) }}</p>
+<form method="post" action="{{ url_for('checkout.create_order') }}">
+  {{ csrf_token() }}
+  <button type="submit">Checkout</button>
+</form>
+{% endblock %}

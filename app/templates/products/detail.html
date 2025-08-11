@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ product.name }}</h2>
+<p>{{ product.description }}</p>
+<p>Price: {{ (product.price_cents/100)|round(2) }} {{ product.currency|upper }}</p>
+<form method="post" action="{{ url_for('checkout.add_to_cart', product_id=product.id) }}">
+  {{ csrf_token() }}
+  <button type="submit">Add to cart</button>
+</form>
+
+<h3>Reviews</h3>
+<ul>
+  {% for r in product.reviews if r.is_approved %}
+    <li>{{ r.rating }}/5 - {{ r.comment }}</li>
+  {% else %}
+    <li>No reviews yet.</li>
+  {% endfor %}
+</ul>
+
+{% if current_user.is_authenticated %}
+  <h4>Write a review</h4>
+  <form method="post" action="{{ url_for('reviews.create_review', product_id=product.id) }}">
+    {{ csrf_token() }}
+    <label>Rating</label>
+    <input type="number" name="rating" min="1" max="5" required>
+    <br>
+    <label>Comment</label>
+    <textarea name="comment" required></textarea>
+    <br>
+    <button type="submit">Submit Review</button>
+  </form>
+{% else %}
+  <p>Please login to review.</p>
+{% endif %}
+{% endblock %}

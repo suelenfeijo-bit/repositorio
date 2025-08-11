@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Search</h2>
+<form method="get">
+  <input type="text" name="q" value="{{ q }}">
+  <button type="submit">Search</button>
+</form>
+<ul>
+  {% for p in results %}
+  <li><a href="{{ url_for('products.product_detail', product_id=p.id) }}">{{ p.name }}</a></li>
+  {% else %}
+  {% if q %}<li>No results</li>{% endif %}
+  {% endfor %}
+</ul>
+{% endblock %}
