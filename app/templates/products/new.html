@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>New Product</h2>
+<form method="post">
+  {{ form.csrf_token }}
+  {{ form.name.label }} {{ form.name(size=32) }}<br>
+  {{ form.description.label }} {{ form.description(rows=5, cols=50) }}<br>
+  {{ form.price_cents.label }} {{ form.price_cents() }}<br>
+  {{ form.submit() }}
+</form>
+{% endblock %}

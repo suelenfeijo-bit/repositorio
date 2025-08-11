@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Flask Marketplace</title>
+  </head>
+  <body>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/products/">Products</a>
+      <a href="/search/">Search</a>
+      <a href="/checkout/cart">Cart</a>
+      {% if current_user.is_authenticated %}
+      <form action="{{ url_for('auth.logout') }}" method="post" style="display:inline;">
+        {{ csrf_token() }}
+        <button type="submit">Logout</button>
+      </form>
+      {% else %}
+      <a href="{{ url_for('auth.login') }}">Login</a>
+      <a href="{{ url_for('auth.register') }}">Register</a>
+      <a href="{{ url_for('auth.oauth_google') }}">Login with Google</a>
+      {% endif %}
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul>
+          {% for category, message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </body>
+</html>
